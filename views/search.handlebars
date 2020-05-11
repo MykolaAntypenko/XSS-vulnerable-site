@@ -1,0 +1,239 @@
+<html>
+    <head>
+        <title>Hello XSS</title>
+        <link rel="stylesheet" type="text/css"  href="./public/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    </head>
+    <body>
+       <header class="header">
+           <div class="block">
+                <h1 class="header-heading">Website to search car orders</h1>
+                <p class="header-description">This website is designed to test for XSS attacks, so it is vulnerable to certain attack vectors</p>
+           </div>
+           <div class="header__block">
+               <p class="header__block-text">Enter the required information in the search: car make, model, buyer, date of issue, etc.</p>
+           </div>
+       </header>
+        <div class="main-container">
+            <div class="container">
+            <div class="wrap">
+                <div class="search">
+                <form method="get" class="search__form">
+                        <input type="text" name="q" id="finder" class="searchTerm" placeholder="What are you looking for?"/>
+                        <button type="submit" value="Search" class="searchButton"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="javascript: FindOnPage('finder'); return false;">Search</a></button>
+                </form>
+                </div>
+            </div>
+                {{#each results}}
+
+                {{else}}
+                    {{#if query}}
+                        <div class="queryresult">{{{query}}} is currently being searched. Please wait a second.</div>
+                    {{/if}}
+                {{/each}}
+                <section class="products">
+                    <div class="products__list">
+
+                    </div>
+                </section>
+
+               {{#each results}}
+
+               {{else}}
+                    {{#if query}}
+                        <div>{{{query}}} is currently being searched. Please wait a second.</div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    <footer class="footer">
+        <p class="footer__text">Maded by Mykola Antypenko</p>
+    </footer>
+    </body>
+    <script>
+        var lastResFind="";
+        var copy_page="";
+        function TrimStr(s) {
+            s = s.replace( /^\s+/g, '');
+            return s.replace( /\s+$/g, '');
+        }
+        function FindOnPage(inputId) {
+            var obj = window.document.getElementById(inputId);
+            var textToFind;
+
+            if (obj) {
+                textToFind = TrimStr(obj.value);
+            } else {
+                alert("Request is not searched");
+                return;
+            }
+            if (textToFind == "") {
+                alert("Search field is empty");
+                return;
+            }
+
+            if(copy_page.length>0)
+                document.body.innerHTML=copy_page;
+            else copy_page=document.body.innerHTML;
+
+
+            document.body.innerHTML = document.body.innerHTML.replace(eval("/name="+lastResFind+"/gi")," ");
+            document.body.innerHTML = document.body.innerHTML.replace(eval("/"+textToFind+"/gi"),"<a name="+textToFind+" style='background:#00FF1A'>"+textToFind+"</a>");
+            lastResFind=textToFind;
+            window.location = '#'+textToFind;
+        }
+    </script>
+<script>
+  myObj = [{"id":1,"Mark of car":"Mercedes-Benz","Model of car":"500E","Car Model Year":1993,"Color":"Aquamarine","Name of buyers":"Colan Loads","Country":"China","Car Number Code":"WP1AB2A2XFL024805"},
+      {"id":2,"Mark of car":"Dodge","Model of car":"Dakota Club","Car Model Year":1997,"Color":"Crimson","Name of buyers":"Hinda Lukehurst","Country":"Ukraine","Car Number Code":"5J6TF3H59FL841295"},
+      {"id":3,"Mark of car":"Acura","Model of car":"RSX","Car Model Year":2005,"Color":"Yellow","Name of buyers":"Madelyn Raggatt","Country":"Indonesia","Car Number Code":"5XYKT3A61EG289394"},
+      {"id":4,"Mark of car":"Dodge","Model of car":"Ram","Car Model Year":2009,"Color":"Blue","Name of buyers":"Pauly Barter","Country":"France","Car Number Code":"1G4GJ5E32DF044107"},
+      {"id":5,"Mark of car":"Chevrolet","Model of car":"Suburban 1500","Car Model Year":2003,"Color":"Pink","Name of buyers":"Lucia Grayland","Country":"Brazil","Car Number Code":"WA1C8AFP2DA119260"},
+      {"id":6,"Mark of car":"Lexus","Model of car":"GS","Car Model Year":2005,"Color":"Mauv","Name of buyers":"Celestine Ovendon","Country":"Malaysia","Car Number Code":"2C3CCAST1CH659193"},
+      {"id":7,"Mark of car":"Ford","Model of car":"Econoline E350","Car Model Year":1998,"Color":"Purple","Name of buyers":"Marthe Miall","Country":"Uruguay","Car Number Code":"KL4CJDSB6FB932629"},
+      {"id":8,"Mark of car":"Toyota","Model of car":"4Runner","Car Model Year":1995,"Color":"Teal","Name of buyers":"Alexandrina Carey","Country":"Sweden","Car Number Code":"1FMEU2DEXAU707038"},
+      {"id":9,"Mark of car":"Nissan","Model of car":"Sentra","Car Model Year":2006,"Color":"Blue","Name of buyers":"Carlie Grimes","Country":"France","Car Number Code":"SCBLC47J27C335363"},
+      {"id":10,"Mark of car":"Mercury","Model of car":"Montego","Car Model Year":2007,"Color":"Pink","Name of buyers":"Andra Sturman","Country":"Serbia","Car Number Code":"1J4NF1GB2AD057077"},
+      {"id":11,"Mark of car":"Ford","Model of car":"F450","Car Model Year":2009,"Color":"Khaki","Name of buyers":"Vito Lambin","Country":"Ukraine","Car Number Code":"3C6LD4AT7CG710635"},
+      {"id":12,"Mark of car":"Nissan","Model of car":"Maxima","Car Model Year":2004,"Color":"Red","Name of buyers":"Carla Suller","Country":"Indonesia","Car Number Code":"KNDJT2A57D7244064"},
+      {"id":13,"Mark of car":"Subaru","Model of car":"XT","Car Model Year":1990,"Color":"Indigo","Name of buyers":"Rebekkah Lehon","Country":"Ukraine","Car Number Code":"WA1WGAFP8EA178797"},
+      {"id":14,"Mark of car":"Cadillac","Model of car":"Escalade","Car Model Year":2004,"Color":"Aquamarine","Name of buyers":"Terza Weiser","Country":"United States","Car Number Code":"WAUMFAFH1FN016378"},
+      {"id":15,"Mark of car":"Mercury","Model of car":"Lynx","Car Model Year":1986,"Color":"Red","Name of buyers":"Brit Mulqueeny","Country":"United States","Car Number Code":"3GYEK628X7G116070"},
+      {"id":16,"Mark of car":"Saturn","Model of car":"Sky","Car Model Year":2007,"Color":"Puce","Name of buyers":"Veradis Nicholson","Country":"Sweden","Car Number Code":"SCBBB7ZH7DC455293"},
+      {"id":17,"Mark of car":"Infiniti","Model of car":"Q","Car Model Year":1996,"Color":"Crimson","Name of buyers":"Audrye Coldridge","Country":"Taiwan","Car Number Code":"5FNYF3H21CB660336"},
+      {"id":18,"Mark of car":"Pontiac","Model of car":"Fiero","Car Model Year":1988,"Color":"Crimson","Name of buyers":"Alvis Forrestall","Country":"China","Car Number Code":"1FTEX1CM8BF753536"},
+      {"id":19,"Mark of car":"Oldsmobile","Model of car":"Ciera","Car Model Year":1996,"Color":"Yellow","Name of buyers":"Stefania Doudney","Country":"Portugal","Car Number Code":"WAUDH98E07A261466"},
+      {"id":20,"Mark of car":"GMC","Model of car":"3500","Car Model Year":1992,"Color":"Puce","Name of buyers":"Germain Southouse","Country":"China","Car Number Code":"5FRYD3H21EB730442"},
+      {"id":21,"Mark of car":"Chevrolet","Model of car":"Camaro","Car Model Year":1993,"Color":"Goldenrod","Name of buyers":"Tabb MacRitchie","Country":"China","Car Number Code":"4JGBB2FB4AA898875"},
+      {"id":22,"Mark of car":"Ford","Model of car":"Festiva","Car Model Year":1988,"Color":"Khaki","Name of buyers":"Clerissa Vosper","Country":"Iraq","Car Number Code":"WBAKE5C54DJ777566"},
+      {"id":23,"Mark of car":"Volkswagen","Model of car":"GTI","Car Model Year":1997,"Color":"Aquamarine","Name of buyers":"Mommy Cheeke","Country":"China","Car Number Code":"KM8NU4CC0BU806015"},
+      {"id":24,"Mark of car":"Nissan","Model of car":"Sentra","Car Model Year":2012,"Color":"Blue","Name of buyers":"Cosmo Cuffley","Country":"China","Car Number Code":"WA1YD54B05N146273"},
+      {"id":25,"Mark of car":"Hummer","Model of car":"H2","Car Model Year":2007,"Color":"Goldenrod","Name of buyers":"Julie Chatain","Country":"Kazakhstan","Car Number Code":"WAUDH94F68N732979"},
+      {"id":26,"Mark of car":"Toyota","Model of car":"Tacoma Xtra","Car Model Year":1997,"Color":"Teal","Name of buyers":"Corinne Anselmi","Country":"Philippines","Car Number Code":"4T1BF1FK5FU283269"},
+      {"id":27,"Mark of car":"Buick","Model of car":"Park Avenue","Car Model Year":2002,"Color":"Puce","Name of buyers":"Ed Tuting","Country":"Nicaragua","Car Number Code":"WA1VFAFL7EA912132"},
+      {"id":28,"Mark of car":"Kia","Model of car":"Spectra","Car Model Year":2004,"Color":"Maroon","Name of buyers":"Jorgan Biasio","Country":"South Africa","Car Number Code":"3C3CFFFH8FT687594"},
+      {"id":29,"Mark of car":"Mitsubishi","Model of car":"Diamante","Car Model Year":2003,"Color":"Indigo","Name of buyers":"Goddard Laneham","Country":"Bulgaria","Car Number Code":"WAUVT68E83A062872"},
+      {"id":30,"Mark of car":"Lexus","Model of car":"SC","Car Model Year":1994,"Color":"Turquoise","Name of buyers":"Peder Deluze","Country":"Kazakhstan","Car Number Code":"1GYUCAEF4AR058535"},
+      {"id":31,"Mark of car":"Kia","Model of car":"Forte","Car Model Year":2010,"Color":"Crimson","Name of buyers":"Oneida Stampfer","Country":"Gabon","Car Number Code":"WVGAV7AX6BW251501"},
+      {"id":32,"Mark of car":"Isuzu","Model of car":"Ascender","Car Model Year":2008,"Color":"Maroon","Name of buyers":"Svend Carne","Country":"Indonesia","Car Number Code":"1G6DW67V080235940"},
+      {"id":33,"Mark of car":"Mercedes-Benz","Model of car":"SL-Class","Car Model Year":1987,"Color":"Yellow","Name of buyers":"Vicki Besse","Country":"France","Car Number Code":"1HGCP2F3XBA533851"},
+      {"id":34,"Mark of car":"Mercedes-Benz","Model of car":"G-Class","Car Model Year":2008,"Color":"Teal","Name of buyers":"Frederigo Grossman","Country":"China","Car Number Code":"WBSDE93483C563539"},
+      {"id":35,"Mark of car":"Mercedes-Benz","Model of car":"Sprinter 2500","Car Model Year":2012,"Color":"Goldenrod","Name of buyers":"Estrellita McKee","Country":"Brazil","Car Number Code":"WAUKFBFL9EN765851"},
+      {"id":36,"Mark of car":"Mazda","Model of car":"MX-6","Car Model Year":1992,"Color":"Maroon","Name of buyers":"Dre Storm","Country":"Chile","Car Number Code":"1G4GL5E33DF866456"},
+      {"id":37,"Mark of car":"Buick","Model of car":"Riviera","Car Model Year":1989,"Color":"Crimson","Name of buyers":"Fabiano Casserley","Country":"Peru","Car Number Code":"3GYFK66N84G716649"},
+      {"id":38,"Mark of car":"Subaru","Model of car":"Legacy","Car Model Year":2012,"Color":"Aquamarine","Name of buyers":"Gustie Aronson","Country":"Luxembourg","Car Number Code":"1N6AD0CU7AC464178"},
+      {"id":39,"Mark of car":"Oldsmobile","Model of car":"Silhouette","Car Model Year":1993,"Color":"Yellow","Name of buyers":"Gerhard Howsden","Country":"Portugal","Car Number Code":"5FRYD4H27GB690487"},
+      {"id":40,"Mark of car":"Ford","Model of car":"F250","Car Model Year":1999,"Color":"Aquamarine","Name of buyers":"Kakalina McCaughey","Country":"Peru","Car Number Code":"KNADM4A37D6362882"},
+      {"id":41,"Mark of car":"Ford","Model of car":"Taurus","Car Model Year":1991,"Color":"Pink","Name of buyers":"Ram Wythill","Country":"Belarus","Car Number Code":"1G4GB5GG1AF634162"},
+      {"id":42,"Mark of car":"Ford","Model of car":"F150","Car Model Year":2008,"Color":"Orange","Name of buyers":"Bondy Aggs","Country":"Poland","Car Number Code":"1GD312CG3DF792741"},
+      {"id":43,"Mark of car":"Volkswagen","Model of car":"Eos","Car Model Year":2008,"Color":"Khaki","Name of buyers":"Carver McIlroy","Country":"Bosnia and Herzegovina","Car Number Code":"3GTU2YEJ2DG762775"},
+      {"id":44,"Mark of car":"Mercedes-Benz","Model of car":"E-Class","Car Model Year":1998,"Color":"Mauv","Name of buyers":"Cathi Petran","Country":"Panama","Car Number Code":"2HKRM3H3XDH560760"},
+      {"id":45,"Mark of car":"Toyota","Model of car":"Corolla","Car Model Year":2001,"Color":"Maroon","Name of buyers":"Ysabel Rotham","Country":"Brazil","Car Number Code":"SCBBP9ZA3CC983377"},
+      {"id":46,"Mark of car":"Lincoln","Model of car":"Mark LT","Car Model Year":2006,"Color":"Teal","Name of buyers":"Enos Donat","Country":"Portugal","Car Number Code":"JTDJTUD39DD341824"},
+      {"id":47,"Mark of car":"Chevrolet","Model of car":"2500","Car Model Year":1994,"Color":"Purple","Name of buyers":"Rosalyn Rosa","Country":"France","Car Number Code":"1G6AM1R31F0066449"},
+      {"id":48,"Mark of car":"Chevrolet","Model of car":"Corvette","Car Model Year":1988,"Color":"Green","Name of buyers":"Rudyard Panas","Country":"Brazil","Car Number Code":"5NPDH4AE5DH826377"},
+      {"id":49,"Mark of car":"Isuzu","Model of car":"Ascender","Car Model Year":2006,"Color":"Fuscia","Name of buyers":"Lucia Trevallion","Country":"Canada","Car Number Code":"WP1AA2A24EL236374"},
+      {"id":50,"Mark of car":"Dodge","Model of car":"Ram 2500 Club","Car Model Year":1995,"Color":"Purple","Name of buyers":"Ethelda Fenby","Country":"Canada","Car Number Code":"KMHGH4JH8CU869263"},
+      {"id":51,"Mark of car":"Chevrolet","Model of car":"Corvette","Car Model Year":1972,"Color":"Crimson","Name of buyers":"Jeth Hazelton","Country":"United States","Car Number Code":"WA1BY74L87D343537"},
+      {"id":52,"Mark of car":"Suzuki","Model of car":"Esteem","Car Model Year":1999,"Color":"Yellow","Name of buyers":"Ranee Kettell","Country":"China","Car Number Code":"WUARU78E27N075870"},
+      {"id":53,"Mark of car":"Geo","Model of car":"Tracker","Car Model Year":1996,"Color":"Khaki","Name of buyers":"Bren Ricardou","Country":"Colombia","Car Number Code":"1FTEW1CM9DK689987"},
+      {"id":54,"Mark of car":"Ford","Model of car":"Mustang","Car Model Year":2000,"Color":"Aquamarine","Name of buyers":"Miles Keld","Country":"France","Car Number Code":"1GKS1HE0XDR212021"},
+      {"id":55,"Mark of car":"Saab","Model of car":"9-5","Car Model Year":2011,"Color":"Maroon","Name of buyers":"Jeramie Dow","Country":"Philippines","Car Number Code":"1C4RDJAG9CC333135"},
+      {"id":56,"Mark of car":"Lincoln","Model of car":"MKX","Car Model Year":2011,"Color":"Indigo","Name of buyers":"Mort Wernham","Country":"China","Car Number Code":"WAUWG94F59N126067"},
+      {"id":57,"Mark of car":"Citroën","Model of car":"2CV","Car Model Year":1948,"Color":"Turquoise","Name of buyers":"Marcelia Haugg","Country":"Chile","Car Number Code":"1FMJK1H56EE924451"},
+      {"id":58,"Mark of car":"Jaguar","Model of car":"X-Type","Car Model Year":2005,"Color":"Violet","Name of buyers":"Edan Nelane","Country":"Paraguay","Car Number Code":"WAU4GBFB2BN292674"},
+      {"id":59,"Mark of car":"MINI","Model of car":"MINI","Car Model Year":2002,"Color":"Orange","Name of buyers":"Shannan Folomin","Country":"Portugal","Car Number Code":"2T2BK1BA6EC691512"},
+      {"id":60,"Mark of car":"Honda","Model of car":"Civic","Car Model Year":2006,"Color":"Purple","Name of buyers":"Ted Faucett","Country":"Ukraine","Car Number Code":"1D7RE2BKXBS252449"},
+      {"id":61,"Mark of car":"Toyota","Model of car":"Avalon","Car Model Year":2006,"Color":"Turquoise","Name of buyers":"Donnie Durham","Country":"Democratic Republic of the Congo","Car Number Code":"WBAKE3C5XDE988025"},
+      {"id":62,"Mark of car":"Mitsubishi","Model of car":"Pajero","Car Model Year":2005,"Color":"Goldenrod","Name of buyers":"Henrietta Desesquelle","Country":"Saint Kitts and Nevis","Car Number Code":"SCFFBCBD2AG244524"},
+      {"id":63,"Mark of car":"Toyota","Model of car":"Tercel","Car Model Year":1997,"Color":"Violet","Name of buyers":"Timmi Raveau","Country":"China","Car Number Code":"1FTEX1E85AF624832"},
+      {"id":64,"Mark of car":"Oldsmobile","Model of car":"Silhouette","Car Model Year":2002,"Color":"Indigo","Name of buyers":"Josephina Bushrod","Country":"Philippines","Car Number Code":"WDDHF2EB8CA668804"},
+      {"id":65,"Mark of car":"Mitsubishi","Model of car":"Pajero","Car Model Year":2005,"Color":"Puce","Name of buyers":"Glad Armatidge","Country":"Philippines","Car Number Code":"5UXFE8C56AL103522"},
+      {"id":66,"Mark of car":"Chevrolet","Model of car":"Sportvan G20","Car Model Year":1994,"Color":"Indigo","Name of buyers":"Jerome Rzehor","Country":"Venezuela","Car Number Code":"1N6AA0CH0EN940311"},
+      {"id":67,"Mark of car":"Chevrolet","Model of car":"Express 2500","Car Model Year":2012,"Color":"Violet","Name of buyers":"Benoit Fearon","Country":"Sweden","Car Number Code":"2G61P5S36E9046646"},
+      {"id":68,"Mark of car":"Chevrolet","Model of car":"Impala","Car Model Year":2000,"Color":"Mauv","Name of buyers":"Laurene Salla","Country":"Indonesia","Car Number Code":"WA1CGAFE3FD519301"},
+      {"id":69,"Mark of car":"GMC","Model of car":"Yukon XL 1500","Car Model Year":2007,"Color":"Fuscia","Name of buyers":"Bogey Amos","Country":"Thailand","Car Number Code":"1G6DX6ED0B0028365"},
+      {"id":70,"Mark of car":"Mercedes-Benz","Model of car":"S-Class","Car Model Year":1999,"Color":"Indigo","Name of buyers":"Yettie McCaskell","Country":"China","Car Number Code":"5NPDH4AEXCH719985"},
+      {"id":71,"Mark of car":"Mitsubishi","Model of car":"Endeavor","Car Model Year":2010,"Color":"Blue","Name of buyers":"Willow Legon","Country":"Indonesia","Car Number Code":"WBA5A5C5XFD100760"},
+      {"id":72,"Mark of car":"Ford","Model of car":"Laser","Car Model Year":1989,"Color":"Green","Name of buyers":"Harli Henighan","Country":"China","Car Number Code":"1G6AX5SX2E0347315"},
+      {"id":73,"Mark of car":"Bentley","Model of car":"Continental Super","Car Model Year":2011,"Color":"Pink","Name of buyers":"Ange Wigglesworth","Country":"Palestinian Territory","Car Number Code":"3D73M3HL0BG126476"},
+      {"id":74,"Mark of car":"Plymouth","Model of car":"Neon","Car Model Year":1998,"Color":"Purple","Name of buyers":"Gifford Whinray","Country":"China","Car Number Code":"JN1CV6EK2BM348828"},
+      {"id":75,"Mark of car":"GMC","Model of car":"Rally Wagon 3500","Car Model Year":1992,"Color":"Crimson","Name of buyers":"Janel Youel","Country":"Russia","Car Number Code":"WDDGF4HB1CA973659"},
+      {"id":76,"Mark of car":"Volkswagen","Model of car":"GTI","Car Model Year":1986,"Color":"Purple","Name of buyers":"Egbert Kelner","Country":"Japan","Car Number Code":"19UUA56712A143604"},
+      {"id":77,"Mark of car":"Mercury","Model of car":"Cougar","Car Model Year":1985,"Color":"Green","Name of buyers":"North Rawlin","Country":"Paraguay","Car Number Code":"1B3CB5HA5AD789548"},
+      {"id":78,"Mark of car":"Infiniti","Model of car":"G37","Car Model Year":2011,"Color":"Turquoise","Name of buyers":"Grenville Bantick","Country":"Croatia","Car Number Code":"2C3CCAFJ2CH591253"},
+      {"id":79,"Mark of car":"Mazda","Model of car":"RX-7","Car Model Year":1994,"Color":"Violet","Name of buyers":"Sullivan Dewane","Country":"China","Car Number Code":"1G6YX36D195021582"},
+      {"id":80,"Mark of car":"Oldsmobile","Model of car":"Silhouette","Car Model Year":1999,"Color":"Yellow","Name of buyers":"Pascal Waything","Country":"Philippines","Car Number Code":"WAUMFAFL9CN201830"},
+      {"id":81,"Mark of car":"Honda","Model of car":"Civic Si","Car Model Year":2006,"Color":"Blue","Name of buyers":"Brien World","Country":"Japan","Car Number Code":"JH4DC53813S913431"},
+      {"id":82,"Mark of car":"Chevrolet","Model of car":"Corvette","Car Model Year":1973,"Color":"Yellow","Name of buyers":"Correy Brickell","Country":"Nigeria","Car Number Code":"19XFA1E89AE954184"},
+      {"id":83,"Mark of car":"Mercedes-Benz","Model of car":"SLR McLaren","Car Model Year":2008,"Color":"Violet","Name of buyers":"Bobbie Everill","Country":"China","Car Number Code":"WBAVC73527A674830"},
+      {"id":84,"Mark of car":"Saab","Model of car":"900","Car Model Year":1989,"Color":"Puce","Name of buyers":"Sybil Darcy","Country":"Brazil","Car Number Code":"JTDZN3EU9FJ362952"},
+      {"id":85,"Mark of car":"Mitsubishi","Model of car":"Galant","Car Model Year":2002,"Color":"Orange","Name of buyers":"Ellerey Krook","Country":"Russia","Car Number Code":"1G4HC5EM8BU493677"},
+      {"id":86,"Mark of car":"Subaru","Model of car":"Forester","Car Model Year":2007,"Color":"Orange","Name of buyers":"Bobbie Ginglell","Country":"Russia","Car Number Code":"YV126MFK9F1442084"},
+      {"id":87,"Mark of car":"Chrysler","Model of car":"300","Car Model Year":2010,"Color":"Yellow","Name of buyers":"Hedvig Cavolini","Country":"Russia","Car Number Code":"WBAYF8C54DD009075"},
+      {"id":88,"Mark of car":"Toyota","Model of car":"RAV4","Car Model Year":2004,"Color":"Crimson","Name of buyers":"Emelen Churchin","Country":"Japan","Car Number Code":"4T3BA3BB5CU002641"},
+      {"id":89,"Mark of car":"Nissan","Model of car":"Sentra","Car Model Year":1994,"Color":"Violet","Name of buyers":"Dev Murdy","Country":"China","Car Number Code":"YV1902MM5F1346638"},
+      {"id":90,"Mark of car":"Mitsubishi","Model of car":"Mighty Max","Car Model Year":1992,"Color":"Goldenrod","Name of buyers":"Tine Gilleon","Country":"Portugal","Car Number Code":"WBA1M1C50FV483049"},
+      {"id":91,"Mark of car":"Nissan","Model of car":"Xterra","Car Model Year":2009,"Color":"Maroon","Name of buyers":"Joela Munday","Country":"Colombia","Car Number Code":"JTHBK1GG1E2065073"},
+      {"id":92,"Mark of car":"Volkswagen","Model of car":"Cabriolet","Car Model Year":1988,"Color":"Mauv","Name of buyers":"Celinda Shipton","Country":"Russia","Car Number Code":"1GYS3CEF3ER469305"},
+      {"id":93,"Mark of car":"Pontiac","Model of car":"Grand Prix","Car Model Year":1987,"Color":"Goldenrod","Name of buyers":"Terrell Valerius","Country":"Poland","Car Number Code":"WBA3F9C56FK908082"},
+      {"id":94,"Mark of car":"Acura","Model of car":"RDX","Car Model Year":2009,"Color":"Turquoise","Name of buyers":"Inessa Bultitude","Country":"Russia","Car Number Code":"WBALM5C57BE817118"},
+      {"id":95,"Mark of car":"Chevrolet","Model of car":"Suburban 1500","Car Model Year":2006,"Color":"Maroon","Name of buyers":"Winston Maskew","Country":"Indonesia","Car Number Code":"1C4NJPBA4FD757390"},
+      {"id":96,"Mark of car":"Dodge","Model of car":"Ram 2500","Car Model Year":1999,"Color":"Pink","Name of buyers":"Tallou Curuclis","Country":"China","Car Number Code":"2T1KU4EE4CC887752"},
+      {"id":97,"Mark of car":"Toyota","Model of car":"Yaris","Car Model Year":2010,"Color":"Turquoise","Name of buyers":"Pancho Bligh","Country":"Armenia","Car Number Code":"WAUKF78E26A714650"},
+      {"id":98,"Mark of car":"Infiniti","Model of car":"QX56","Car Model Year":2011,"Color":"Violet","Name of buyers":"Winne Ennals","Country":"Philippines","Car Number Code":"2HNYD18965H104909"},
+      {"id":99,"Mark of car":"Lamborghini","Model of car":"Diablo","Car Model Year":1990,"Color":"Green","Name of buyers":"Weider Titcomb","Country":"Armenia","Car Number Code":"WBSBR934X1E590299"},
+      {"id":100,"Mark of car":"Ford","Model of car":"Excursion","Car Model Year":2002,"Color":"Red","Name of buyers":"Atlanta Iianon","Country":"China","Car Number Code":"1G6AB5RA3E0122224"}]
+  let results = JSON.stringify(myObj);
+  resultAccordeon(myObj);
+    function resultAccordeon(res) {
+        for (var i = 0; i < res.length; i++) {
+            var productList = document.querySelector(".products__list");
+
+            var marks = res[i]["Mark of car"];
+            var model = res[i]["Model of car"];
+            var year = res[i]["Car Model Year"];
+            var color = res[i]["Color"];
+            var buyers = res[i]["Name of buyers"];
+            var country = res[i]["Country"];
+            var code = res[i]["Car Number Code"];
+
+            var productItem1 = document.createElement("p");
+            var productItem2 = document.createElement("p");
+            var productItem3 = document.createElement("p");
+            var productItem4 = document.createElement("p");
+            var productItem5 = document.createElement("p");
+            var productItem6 = document.createElement("p");
+            var productItem7 = document.createElement("p");
+            var blockItem = document.createElement("div");
+            productItem1.className = "product__item";
+            productItem2.className = "product__item";
+            productItem3.className = "product__item";
+            productItem4.className = "product__item";
+            productItem5.className = "product__item";
+            productItem6.className = "product__item";
+            productItem7.className = "product__item";
+            blockItem.className = "car_information";
+            productItem1.innerHTML = 'Brand of car: ' + marks;
+            productItem2.innerHTML = 'Model of car: ' + model;
+            productItem3.innerHTML = 'Car Model Year: ' + year;
+            productItem4.innerHTML = 'Color: ' + color;
+            productItem5.innerHTML = 'Name of buyers: ' + buyers;
+            productItem6.innerHTML = 'Country: ' + country;
+            productItem7.innerHTML = 'Car Number Code: ' + code;
+
+            blockItem.append(productItem1);
+            blockItem.append(productItem2);
+            blockItem.append(productItem3);
+            blockItem.append(productItem4);
+            blockItem.append(productItem5);
+            blockItem.append(productItem6);
+            blockItem.append(productItem7);
+
+            productList.append(blockItem);
+        }
+
+
+    }
+</script>
+</html>
